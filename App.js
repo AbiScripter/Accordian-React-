@@ -39,7 +39,8 @@ function Item({ accor, id }) {
       className={`item ${selected ? "open" : ""}`}
     >
       <span className="number">{id + 1}</span>
-      <span>{accor.title}</span>
+      <span className="title">{accor.title}</span>
+
       <span className="icon">{selected ? "-" : "+"}</span>
       {selected ? <p className="content-box">{accor.text}</p> : ""}
     </div>
