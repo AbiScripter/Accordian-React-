@@ -17,32 +17,41 @@ const faqs = [
 ];
 
 function Accordian({ data }) {
+  const [curOpen, setCurOpen] = useState(null);
+
   return (
     <div className="accordion">
       {data.map((accor, i) => {
-        return <Item key={i} accor={accor} id={i} />;
+        return (
+          <Item
+            key={accor.title}
+            title={accor.title}
+            num={i}
+            curOpen={curOpen}
+            onOpen={setCurOpen}
+          >
+            {accor.text}
+          </Item>
+        );
       })}
     </div>
   );
 }
 
-function Item({ accor, id }) {
-  const [selected, setSelected] = useState(false);
+function Item({ num, title, curOpen, onOpen, children }) {
+  const isOpen = num === curOpen;
 
   function handleOpening() {
-    setSelected((selected) => !selected);
+    onOpen(isOpen ? null : num);
   }
 
   return (
-    <div
-      onClick={() => handleOpening()}
-      className={`item ${selected ? "open" : ""}`}
-    >
-      <span className="number">{id + 1}</span>
-      <span className="title">{accor.title}</span>
+    <div onClick={handleOpening} className={`item ${isOpen ? "open" : ""}`}>
+      <span className="number">{num + 1}</span>
+      <span className="title">{title}</span>
 
-      <span className="icon">{selected ? "-" : "+"}</span>
-      {selected ? <p className="content-box">{accor.text}</p> : ""}
+      <span className="icon">{isOpen ? "-" : "+"}</span>
+      {isOpen ? <p className="content-box">{children}</p> : ""}
     </div>
   );
 }
